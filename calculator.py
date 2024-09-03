@@ -1,6 +1,6 @@
 class NegativeNumberException(Exception):
-    def __init__(self, message="negative numbers not allowed"):
-        super().__init__(message)
+    def __init__(self, number):
+        super().__init__(f"negative numbers not allowed {number}")
 
 class StringCalculator:
 
@@ -22,9 +22,9 @@ class StringCalculator:
     numbers = numbers.split(",")
 
     for number in numbers:
-      number = int(number)
+      number = int(number.strip())
       if number < 0:
-        raise NegativeNumberException()
+        raise NegativeNumberException(number)
       total += number
     return total
   

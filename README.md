@@ -32,7 +32,8 @@
 
 # Installation, Usage and Test Suite
 
-This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by commas.
+This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by commas or new lines, while ignoring negative numbers. A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
+
 
 ## Installation
 
