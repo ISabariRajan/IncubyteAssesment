@@ -2,7 +2,7 @@ import re
 
 class NegativeNumberException(Exception):
     def __init__(self, number):
-        super().__init__(f"negative numbers not allowed {number}")
+        super().__init__(f"negative numbers not allowed: {number}")
 
 class InvalidDelimiterException(Exception):
   def __init__(self, delimiter="-"):
@@ -11,40 +11,27 @@ class InvalidDelimiterException(Exception):
 
 class StringCalculator:
 
-  def get_delimiters_and_numbers(self, numbers):
+  def handle_delimiters_and_clean_numbers(self, numbers):
     """
-    Extracts the delimiters and numbers from the input string 'numbers'.
-      Args:
-        numbers (str): The string containing delimiters and numbers.
-      
-      Returns:
-        tuple: A tuple containing the extracted delimiters and numbers.
-      
-      Raises:
-        InvalidDelimiterException: If the delimiters contain a hyphen (-) character.
+    Extracts the delimiters and cleans the numbers from the input string 'numbers'.
+    Args:
+      numbers (str): The string containing delimiters and numbers.
+
+    Returns:
+      str: A cleaned string containing only the numbers separated by commas.
+
+    Raises:
+      InvalidDelimiterException: If any delimiter contains a hyphen (-) character.
     """
 
-    delimiters = re.search(r"//[\D]+\n", numbers).group()
-    if "-" in delimiters:
-      raise InvalidDelimiterException()
-    numbers = numbers.replace(delimiters, "")
-    return delimiters, numbers
+    delimiters = re.findall(r"\[(.*?)\]", numbers)
+    numbers = re.split("\n", numbers, 1)[1] # remove delimiter part from numbers
+    for delimiter in delimiters:
+      numbers = numbers.replace(delimiter, ",")
+      if "-" == delimiter:
+        raise InvalidDelimiterException()
 
-  def split_numbers_with_delimiters(self, delimiters, numbers):
-    """
-    Splits the input string 'numbers' using the specified 'delimiters' as a delimiter.
-      Args:
-        delimiters (str): The character or sequence of characters to use as a delimiter.
-        numbers (str): The string containing numbers separated by the specified delimiters.
-      
-      Returns:
-        list: A list of strings, where each string contains a number and its surrounding delimiters.
-    """
-
-    return re.split(
-       r'[' + re.escape(delimiters) + r']',
-       numbers
-    )
+    return numbers
 
   def add(self, numbers):
     """
@@ -60,21 +47,25 @@ class StringCalculator:
     """
 
     # remove empty spaces and check empty string
-    total = 0
     numbers = numbers.strip()
     if numbers == "":
-      return total
+      return 0
 
-    # Use comma(,) as a default delimiter
-    delimiters = ","
-    # Get delimiter and numbers if it has delimiter
     if numbers.startswith("//"):
-      delimiters, numbers = self.get_delimiters_and_numbers(numbers)
+      numbers = self.handle_delimiters_and_clean_numbers(numbers)
+    
+    numbers = numbers.replace("\n", ",").split(",")
 
-    numbers = self.split_numbers_with_delimiters(delimiters, numbers)
+    positive_number = []
+    negative_numbers = []
     for number in numbers:
       number = int(number.strip())
       if number < 0:
-        raise NegativeNumberException(number)
-      total += number
-    return total
+        negative_numbers.append(number)
+      elif number <= 1000:
+        positive_number.append(number)
+
+    if len(negative_numbers) > 0:
+      raise NegativeNumberException(",".join(map(str, negative_numbers)))
+
+    return sum(positive_number)
