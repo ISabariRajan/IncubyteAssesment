@@ -24,27 +24,12 @@ class StringCalculator:
         InvalidDelimiterException: If the delimiters contain a hyphen (-) character.
     """
 
-    delimiters = re.search(r"//[\D]+\n", numbers).group()
-    if "-" in delimiters:
+    delimiters = re.search(r"[\D]", numbers).group()
+    numbers = re.split("\n", numbers, 1)[1]
+    if "-" == delimiters:
       raise InvalidDelimiterException()
-    numbers = numbers.replace(delimiters, "")
-    return delimiters, numbers
-
-  def split_numbers_with_delimiters(self, delimiters, numbers):
-    """
-    Splits the input string 'numbers' using the specified 'delimiters' as a delimiter.
-      Args:
-        delimiters (str): The character or sequence of characters to use as a delimiter.
-        numbers (str): The string containing numbers separated by the specified delimiters.
-      
-      Returns:
-        list: A list of strings, where each string contains a number and its surrounding delimiters.
-    """
-
-    return re.split(
-       r'[' + re.escape(delimiters) + r']',
-       numbers
-    )
+    numbers = numbers.replace(delimiters, ",")
+    return numbers
 
   def add(self, numbers):
     """
@@ -65,13 +50,12 @@ class StringCalculator:
     if numbers == "":
       return total
 
-    # Use comma(,) as a default delimiter
-    delimiters = ","
     # Get delimiter and numbers if it has delimiter
     if numbers.startswith("//"):
-      delimiters, numbers = self.get_delimiters_and_numbers(numbers)
+      numbers = numbers.strip("//")
+      numbers = self.get_delimiters_and_numbers(numbers)
 
-    numbers = self.split_numbers_with_delimiters(delimiters, numbers)
+    numbers = numbers.replace("\n", ",").split(",")
     for number in numbers:
       number = int(number.strip())
       if number < 0:

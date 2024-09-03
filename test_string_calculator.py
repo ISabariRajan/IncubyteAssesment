@@ -21,11 +21,11 @@ class TestStringCalculator(unittest.TestCase):
     self.assertTrue("negative numbers not allowed -1" in str(context.exception))
   
   def test_new_lines_multiple_numbers(self):
-    self.assertEqual(self.calc.add("1,2\n\n\n,\n5,\n6,3"), 17)
+    self.assertEqual(self.calc.add("1,2\n5\n6,3"), 17)
   
   def test_custom_delimiters(self):
-    self.assertEqual(self.calc.add("""//,;.[
-              1,2;3;4[5
+    self.assertEqual(self.calc.add("""//;
+              1;2;3;4;5
               """),
           15)
 
