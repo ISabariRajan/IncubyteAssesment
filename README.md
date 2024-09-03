@@ -1,4 +1,11 @@
 # String Calculator
+This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers.
+- The default delimiter is comma (,)
+- You can also use any custom delimiter by adding '//<delimiter>\n' before the numbers (eg: //;\n1;2;3)
+- You cannot use '-' as delimiter, A custom exception `InvalidDelimiterException` has been defined for handling this case
+- A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
+- The full requirement based on https://osherove.com/tdd-kata-1/ is available on branch "[TDDKata](https://github.com/ISabariRajan/StringCalculator/tree/TDDKata)"
+
 
 # Requirement
 
@@ -31,14 +38,6 @@
 
 
 # Installation, Usage and Test Suite
-
-This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers.
-- The default delimiter is comma (,)
-- You can also use any custom delimiter by adding '//<delimiter>\n' before the numbers (eg: //;\n1;2;3)
-- You can also use multiple delimiters (eg: //;,\n1,2,3;4;4)
-- You cannot use '-' as delimiter, A custom exception `InvalidDelimiterException` has been defined for handling this case
-- A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
-
 
 ## Installation
 
