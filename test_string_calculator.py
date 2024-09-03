@@ -28,7 +28,6 @@ class TestStringCalculator(unittest.TestCase):
               1,2;3;4[5
               """),
           15)
-    
 
 if __name__ == "__main_":
   unittest.main()

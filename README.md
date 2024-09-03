@@ -32,7 +32,12 @@
 
 # Installation, Usage and Test Suite
 
-This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by commas or new lines, while ignoring negative numbers. A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
+This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers.
+- The default delimiter is comma (,)
+- You can also use any custom delimiter by adding '//<delimiter>\n' before the numbers (eg: //;\n1;2;3)
+- You can also use multiple delimiters (eg: //;,\n1,2,3;4;4)
+- You cannot use '-' as delimiter, A custom exception `InvalidDelimiterException` has been defined for handling this case
+- A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
 
 
 ## Installation
@@ -47,7 +52,26 @@ This repository contains an implementation of a string calculator, along with a 
 
 ## Usage
 
-  I will update this once I create an example python file or something
+  To use the String Calculator, create a Python file (e.g., example.py) and import the necessary functions from the string_calculator.py module:
+
+  ```python
+    from string_calculator import StringCalculator
+
+    # Create an instance of the StringCalculator class
+    calc = StringCalculator()
+
+    # Perform addition operations on numbers separated by commas or new lines
+    result = calc.add("1,5,10")  # Output: 16
+    print(result)
+
+  ```
+
+  I have also created a example.py file
+  Open a terminal or command prompt and navigate to the project directory (e.g., cd StringCalculator). Run the following command to execute the example file:
+
+  ```bash
+  python example.py
+  ```
 
 ## Test Suite
 
