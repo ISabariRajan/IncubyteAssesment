@@ -11,6 +11,12 @@ class InvalidDelimiterException(Exception):
 
 class StringCalculator:
 
+  def __init__(self) -> None:
+    self.add_invoked = 0
+
+  def getCalledCount(self):
+    return self.add_invoked
+
   def handle_delimiters_and_clean_numbers(self, numbers):
     """
     Extracts the delimiters and cleans the numbers from the input string 'numbers'.
@@ -46,6 +52,7 @@ class StringCalculator:
           NegativeNumberException: If any number in the input string is negative.
     """
 
+    self.add_invoked += 1
     # remove empty spaces and check empty string
     numbers = numbers.strip()
     if numbers == "":
