@@ -1,4 +1,5 @@
 # String Calculator
+
 This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers and numbers bigger than 1000.
 - The default delimiter is comma (,)
 - You can also use any custom delimiter by adding '//[delimiter]\n' before the numbers (eg: //[;]\n1;2;3)
