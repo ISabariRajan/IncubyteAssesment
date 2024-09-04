@@ -2,7 +2,7 @@ import re
 
 class NegativeNumberException(Exception):
     def __init__(self, number):
-        super().__init__(f"negative numbers not allowed {number}")
+        super().__init__(f"negative numbers not allowed: {number}")
 
 class InvalidDelimiterException(Exception):
   def __init__(self, delimiter="-"):
@@ -11,24 +11,32 @@ class InvalidDelimiterException(Exception):
 
 class StringCalculator:
 
-  def get_delimiters_and_numbers(self, numbers):
+  def __init__(self) -> None:
+    self.add_invoked = 0
+
+  def getCalledCount(self):
+    return self.add_invoked
+
+  def handle_delimiters_and_clean_numbers(self, numbers):
     """
-    Extracts the delimiters and numbers from the input string 'numbers'.
-      Args:
-        numbers (str): The string containing delimiters and numbers.
-      
-      Returns:
-        tuple: A tuple containing the extracted delimiters and numbers.
-      
-      Raises:
-        InvalidDelimiterException: If the delimiters contain a hyphen (-) character.
+    Extracts the delimiters and cleans the numbers from the input string 'numbers'.
+    Args:
+      numbers (str): The string containing delimiters and numbers.
+
+    Returns:
+      str: A cleaned string containing only the numbers separated by commas.
+
+    Raises:
+      InvalidDelimiterException: If any delimiter contains a hyphen (-) character.
     """
 
-    delimiters = re.search(r"[\D]", numbers).group()
-    numbers = re.split("\n", numbers, 1)[1]
-    if "-" == delimiters:
-      raise InvalidDelimiterException()
-    numbers = numbers.replace(delimiters, ",")
+    delimiters = re.findall(r"\[(.*?)\]", numbers)
+    numbers = re.split("\n", numbers, 1)[1] # remove delimiter part from numbers
+    for delimiter in delimiters:
+      numbers = numbers.replace(delimiter, ",")
+      if "-" == delimiter:
+        raise InvalidDelimiterException()
+
     return numbers
 
   def add(self, numbers):
@@ -44,21 +52,27 @@ class StringCalculator:
           NegativeNumberException: If any number in the input string is negative.
     """
 
+    self.add_invoked += 1
     # remove empty spaces and check empty string
-    total = 0
     numbers = numbers.strip()
     if numbers == "":
-      return total
+      return 0
 
-    # Get delimiter and numbers if it has delimiter
     if numbers.startswith("//"):
-      numbers = numbers.strip("//")
-      numbers = self.get_delimiters_and_numbers(numbers)
-
+      numbers = self.handle_delimiters_and_clean_numbers(numbers)
+    
     numbers = numbers.replace("\n", ",").split(",")
+
+    positive_number = []
+    negative_numbers = []
     for number in numbers:
       number = int(number.strip())
       if number < 0:
-        raise NegativeNumberException(number)
-      total += number
-    return total
+        negative_numbers.append(number)
+      elif number <= 1000:
+        positive_number.append(number)
+
+    if len(negative_numbers) > 0:
+      raise NegativeNumberException(",".join(map(str, negative_numbers)))
+
+    return sum(positive_number)
