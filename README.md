@@ -1,12 +1,13 @@
 # String Calculator
-This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers.
+This repository contains an implementation of a string calculator, along with a test suite that checks its functionality. The calculator is designed to handle addition operations on numbers separated by delimiters or new lines, while ignoring negative numbers and numbers bigger than 1000.
 - The default delimiter is comma (,)
-- You can also use any custom delimiter by adding '//<delimiter>\n' before the numbers (eg: //[;]\n1;2;3)
+- You can also use any custom delimiter by adding '//[delimiter]\n' before the numbers (eg: //[;]\n1;2;3)
 - You can also use multiple delimiters (eg: //[;][,]\n1,2,3;4;4)
+- You can also use multiple character delimiters (eg: //[;;;][===]\n1;;;2;;;3===4===4)
 - You cannot use '-' as delimiter, A custom exception `InvalidDelimiterException` has been defined for handling this case
 - A custom exception `NegativeNumberException` has been defined for handling cases when negative numbers are encountered during the calculation.
-- The calculator will skip numbers bigger than 1000, based on https://osherove.com/tdd-kata-1/
-# Requirement
+
+# Requirement [TDD Kata 1](https://osherove.com/tdd-kata-1/)
 
 1. Create a simple String calculator with a method signature like this:
 
@@ -33,7 +34,57 @@ This repository contains an implementation of a string calculator, along with a 
 
 5. Calling add with a negative number will throw an exception: "negative numbers not allowed <negative_number>".
 
-      -  If there are multiple negative numbers, show all of them in the exception message, separated by commas.
+6.  If there are multiple negative numbers, show all of them in the exception message, separated by commas.
+
+7. Using TDD, Add a method to StringCalculator called
+      ```python
+      public int GetCalledCount()
+      ```
+      that returns how many times Add() was invoked.
+      
+      **Remember** - Start with a failing (or even non compiling) test.
+
+8. (.NET Only) Using TDD, Add an event to the StringCalculator class named
+      ```python
+      public event Action<string, int> AddOccured ,
+      ```
+      that is triggered after every Add() call.
+  
+      **Hint:**
+      Create the event declaration first:
+      then write a failing test that listens to the event
+      and proves it should have been triggered when calling Add().
+
+      **Hint 2:**
+      Example:
+
+      ```java
+      string giveninput = null;
+      sc.AddOccured += delegate(string input, int result)
+      {
+        giveninput = input;
+      };
+      ```
+
+9. Numbers bigger than 1000 should be ignored, for example: 2 + 1001 == 2
+
+10. Delimiters can be of any length with the following format:
+
+    “//[delimiter]\n”
+
+    for example:
+    “//[***]\n 1 *** 2 *** 3” == 6
+11. Allow multiple delimiters like this:
+    “//[delim1][delim2]\n”
+    
+    for example
+    
+    “//[*][%]\n 1 * 2%3” == 6.
+12. make sure you can also handle multiple delimiters with length longer than one char
+    
+    for example
+    
+    “//[**][%%]\n1**2%%3” == 6.
 
 
 # Installation, Usage and Test Suite
